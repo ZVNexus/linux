@@ -1048,6 +1048,9 @@ static int nvme_poll_irqdisable(struct nvme_queue *nvmeq, unsigned int tag)
 	u16 start, end;
 	int found;
 
+	if (!nvme_cqe_pending(nvmeq))
+		return 0;
+
 	/*
 	 * For a poll queue we need to protect against the polling thread
 	 * using the CQ lock.  For normal interrupt driven threads we have
